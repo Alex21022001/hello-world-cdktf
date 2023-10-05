@@ -29,7 +29,8 @@ const DEFAULT_PROPS: Partial<LambdaProps> = {
 
 export class Lambda extends Construct {
 
-    readonly environment
+    readonly environment;
+    private lambda: LambdaFunction;
 
     constructor(scope: Construct, id: string, props: Readonly<LambdaProps>) {
         super(scope, id);
@@ -37,7 +38,7 @@ export class Lambda extends Construct {
         const {asset, environment, handler, memorySize, runtime, role} = {...props, ...DEFAULT_PROPS}
         this.environment = environment ?? {};
 
-        new LambdaFunction(this, "lambda_function", {
+        this.lambda = new LambdaFunction(this, "lambda_function", {
             functionName: id,
             filename: asset.path,
             environment,
@@ -45,7 +46,6 @@ export class Lambda extends Construct {
             runtime,
             memorySize,
             role: role.arn
-
         });
 
         new CloudwatchLogGroup(this, "lambda_logs", {
@@ -56,5 +56,13 @@ export class Lambda extends Construct {
         new TerraformOutput(this, "lambda_archive_path", {
             value: asset.path
         })
+    }
+
+    get lambdaInvokeArn() {
+        return this.lambda.invokeArn
+    }
+
+    get lambdaFunctionName() {
+        return this.lambda.functionName;
     }
 }

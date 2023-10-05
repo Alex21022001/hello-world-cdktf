@@ -4,6 +4,8 @@ import {Asset} from "./asset";
 import {Role} from "./role";
 import {Lambda, LAMBDA_SERVICE_PRINCIPAL, LAMBDA_EXECUTION_POLICY} from "./lambda";
 import {AwsProvider} from "@cdktf/provider-aws/lib/provider";
+import {HttpApiGateway} from "./api";
+
 
 export class MyStack extends TerraformStack {
     constructor(scope: Construct, id: string) {
@@ -22,12 +24,14 @@ export class MyStack extends TerraformStack {
             relativePath: "../hello-world-lambda"
         });
 
-        const role = new Role(this, "lambda-exec-role", LAMBDA_SERVICE_PRINCIPAL);
-        role.attachPolicy(LAMBDA_EXECUTION_POLICY);
+        const role = new Role(this, "lambda-exec-role", LAMBDA_SERVICE_PRINCIPAL)
+            .attachPolicy(LAMBDA_EXECUTION_POLICY);
 
-        new Lambda(this, "hello-world", {
-            asset,
-            role
-        });
+        const lambda = new Lambda(this, "hello-world", {asset, role});
+
+        new HttpApiGateway(this, "hello-world-api")
+            .addStage({stage: "prod"})
+            .addRoute({method: "GET", route: "/hello", lambda})
+            .done();
     }
 }

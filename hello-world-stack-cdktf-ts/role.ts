@@ -22,7 +22,9 @@ export class Role extends Construct {
             name: `${this.node.id}_${policyName}_attachment`,
             policyArn: policyArn,
             roles: [this.role.name]
-        })
+        });
+
+        return this;
     }
 
     get arn() {
