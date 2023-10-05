@@ -27,11 +27,28 @@ export class MyStack extends TerraformStack {
         const role = new Role(this, "lambda-exec-role", LAMBDA_SERVICE_PRINCIPAL)
             .attachPolicy(LAMBDA_EXECUTION_POLICY);
 
-        const lambda = new Lambda(this, "hello-world", {asset, role});
+        const lambda = new Lambda(this, "hello-world", {
+            asset,
+            role,
+            environment: {
+                QUARKUS_LAMBDA_HANDLER: "hello"
+            }
+        });
+
+        const lambda2 = new Lambda(this, "hello-post", {
+            environment: {
+                QUARKUS_LAMBDA_HANDLER: "hello-post"
+            },
+            asset: asset,
+            role: role
+        });
+
 
         new HttpApiGateway(this, "hello-world-api")
-            .addStage({stage: "prod"})
+            .addStage({stage: "prod", loggingLevel: "INFO"})
             .addRoute({method: "GET", route: "/hello", lambda})
+            .addRoute({method: "POST", route: "/hello", lambda: lambda2})
             .done();
+
     }
 }

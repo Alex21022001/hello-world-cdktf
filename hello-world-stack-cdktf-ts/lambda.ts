@@ -1,5 +1,5 @@
 import {Construct} from "constructs";
-import {LambdaFunction, LambdaFunctionEnvironment} from "@cdktf/provider-aws/lib/lambda-function";
+import {LambdaFunction} from "@cdktf/provider-aws/lib/lambda-function";
 import {Asset} from "./asset";
 import {Role} from "./role";
 import {CloudwatchLogGroup} from "@cdktf/provider-aws/lib/cloudwatch-log-group";
@@ -13,7 +13,7 @@ export type Runtime = "java11" | "java17";
 
 export type LambdaProps = {
     asset: Asset,
-    environment?: LambdaFunctionEnvironment,
+    environment?: { [key: string]: string },
     handler?: string,
     runtime?: Runtime
     memorySize?: number,
@@ -29,7 +29,7 @@ const DEFAULT_PROPS: Partial<LambdaProps> = {
 
 export class Lambda extends Construct {
 
-    readonly environment;
+    readonly environment: { [key: string]: string };
     private lambda: LambdaFunction;
 
     constructor(scope: Construct, id: string, props: Readonly<LambdaProps>) {
@@ -41,7 +41,9 @@ export class Lambda extends Construct {
         this.lambda = new LambdaFunction(this, "lambda_function", {
             functionName: id,
             filename: asset.path,
-            environment,
+            environment: {
+                variables: environment
+            },
             handler,
             runtime,
             memorySize,
