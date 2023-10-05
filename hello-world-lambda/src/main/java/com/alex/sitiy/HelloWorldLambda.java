@@ -20,7 +20,7 @@ public class HelloWorldLambda implements RequestHandler<APIGatewayV2HTTPEvent, A
         if (event.getQueryStringParameters() != null && event.getQueryStringParameters().get("Name") != null) {
             body = "Hello " + event.getQueryStringParameters().get("Name");
         } else {
-            body = "Hello everyone!!!";
+            body = "Hello everyone!";
         }
 
         return APIGatewayV2HTTPResponse.builder()

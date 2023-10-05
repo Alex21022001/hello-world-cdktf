@@ -3,3 +3,19 @@
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 J
 hello-world-lambda/pom.xml,b\9\b94c8d64c33b0c1ac3cb88147b7d9ff765956cef
+R
+"hello-world-stack-cdktf/.gitignore,f\c\fcb0755b10dbf78b6a98dd8b6fd5f2fe7e2a39ac
+O
+hello-world-stack-cdktf/pom.xml,8\e\8e23a47bbb38e54a9aabfec2e178ab8405e92dde
+R
+"hello-world-stack-cdktf/cdktf.json,5\6\56f635f21f5601330d32af21a687a847b6ed7cb0
+S
+#hello-world-stack-cdktf-ts/setup.js,3\c\3c4565c2eabbc29f79fbfbe190c0e9f7e6da071f
+U
+%hello-world-stack-cdktf-ts/cdktf.json,8\b\8b2142724e117052cabab392143787f22f10d19f
+W
+'hello-world-stack-cdktf-ts/package.json,3\4\348423ccfc789e1a96f39a891ef53e1a57f7a026
+X
+(hello-world-stack-cdktf-ts/tsconfig.json,6\e\6eb0d1fa7dcd50fced0bb9747edc7ec11d47721a
+S
+#hello-world-stack-cdktf-ts/asset.ts,6\a\6ad66a9cad7776af1cf88a1f5587cfbc4293ffbb
